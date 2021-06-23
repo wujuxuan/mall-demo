@@ -1,4 +1,4 @@
-package com.wubaba.gulimallproduct.entity;
+package com.wubaba.gulimallcoupon.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -12,7 +12,7 @@ import lombok.Data;
  * 
  * @author wujuxuan
  * @email 
- * @date 2021-06-23 15:05:14
+ * @date 2021-06-23 15:18:04
  */
 @Data
 @TableName("undo_log")
