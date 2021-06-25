@@ -1,11 +1,15 @@
 package com.wubaba.gulimallcoupon.controller;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.wubaba.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +28,33 @@ import com.wubaba.gulimallcoupon.service.SmsCouponService;
  * @email 
  * @date 2021-06-23 15:18:04
  */
+@RefreshScope //动态获取配置文件
 @RestController
 @RequestMapping("gulimallcoupon/smscoupon")
 public class SmsCouponController {
     @Autowired
     private SmsCouponService smsCouponService;
+
+    @Value("${coupon.user.name}")//从application.properties中获取//不要写user.name，他是环境里的变量
+    private String name;
+    @Value("${coupon.user.age}")
+    private Integer age;
+
+    @RequestMapping("/test")
+    public R test(){
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("name",name);
+        map.put("age",age);
+        return R.success("成功",map);
+    }
+
+    @RequestMapping("/member/list")
+    public R membercoupons(){    //全系统的所有返回都返回R
+        // 应该去数据库查用户对于的优惠券，但这个我们简化了，不去数据库查了，构造了一个优惠券给他返回
+        SmsCouponEntity couponEntity = new SmsCouponEntity();
+        couponEntity.setCouponName("满100-10");//优惠券的名字
+        return R.success("成功", Collections.singletonList(couponEntity));
+    }
 
     /**
      * 列表
